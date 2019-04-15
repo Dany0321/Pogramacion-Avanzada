@@ -8,8 +8,10 @@ package presentacion;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 
 /**
  *
@@ -22,18 +24,21 @@ public class VistaJuego extends javax.swing.JFrame {
     private Modelo MiModelo;
     private ControladorJuego miControl;
     private int[][] solucionUsuario = new int[9][9];
-
-    ;
+    private Timer tiempo = new Timer(1000,getMiControl());
+    private int segundos,minutos;
     
     
 
     public VistaJuego(Modelo m) {
         MiModelo = m;
+        tiempo.start();
         initComponents();
         capturareventos();
         generarCampos();
         imprmirCampos();
     }
+    
+    
 
     public void capturareventos() {
         getBtnVolver().addActionListener(getMiControl());
@@ -116,6 +121,41 @@ public class VistaJuego extends javax.swing.JFrame {
         return btnVolver;
     }
 
+    public Timer getTiempo() {
+        return tiempo;
+    }
+
+    public int getSegundos() {
+        return segundos;
+    }
+
+    public int getMinutos() {
+        return minutos;
+    }
+
+    public JLabel getLblTiempoCambianteS() {
+        return lblTiempoCambianteS;
+    }
+
+    
+    
+    public void setSegundos(int segundos) {
+        this.segundos = segundos;
+    }
+
+    public void setMinutos(int minutos) {
+        this.minutos = minutos;
+    }
+
+    
+    
+    public JLabel getLblTiempoCambiante() {
+        return lblTiempoCambiante;
+    }
+    
+    
+    
+
     public void setSudoku(int[][] sudoku) {
         this.sudoku = sudoku;
     }
@@ -185,6 +225,8 @@ public class VistaJuego extends javax.swing.JFrame {
         btnReiniciar = new javax.swing.JButton();
         lblTiempoCambiante = new javax.swing.JLabel();
         lblMensajeError = new javax.swing.JLabel();
+        lblTiempoCambianteS = new javax.swing.JLabel();
+        lblDosPuntos = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -203,6 +245,8 @@ public class VistaJuego extends javax.swing.JFrame {
 
         btnReiniciar.setText("Reiniciar");
 
+        lblDosPuntos.setText(":");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -215,8 +259,12 @@ public class VistaJuego extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblTiempo)
                         .addGap(18, 18, 18)
-                        .addComponent(lblTiempoCambiante, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(52, 52, 52))
+                        .addComponent(lblTiempoCambiante, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblDosPuntos, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblTiempoCambianteS, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(72, 72, 72)
                         .addComponent(btnReiniciar)
@@ -231,11 +279,13 @@ public class VistaJuego extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTiempoCambiante, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblTiempoCambianteS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblTiempoCambiante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnVolver)
-                        .addComponent(lblTiempo)))
+                        .addComponent(lblTiempo))
+                    .addComponent(lblDosPuntos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 385, Short.MAX_VALUE)
                 .addComponent(lblMensajeError)
                 .addGap(2, 2, 2)
@@ -257,8 +307,10 @@ public class VistaJuego extends javax.swing.JFrame {
     private javax.swing.JButton btnComprobar;
     private javax.swing.JButton btnReiniciar;
     private javax.swing.JButton btnVolver;
+    private javax.swing.JLabel lblDosPuntos;
     private javax.swing.JLabel lblMensajeError;
     private javax.swing.JLabel lblTiempo;
     private javax.swing.JLabel lblTiempoCambiante;
+    private javax.swing.JLabel lblTiempoCambianteS;
     // End of variables declaration//GEN-END:variables
 }

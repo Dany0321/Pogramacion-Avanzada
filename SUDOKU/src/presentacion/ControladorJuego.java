@@ -26,6 +26,9 @@ public class ControladorJuego implements ActionListener  {
         if(e.getSource().equals(ventana.getBtnComprobar())){
             ventana.getMiModelo().btnComprobarSolucion();
         }
+        if (e.getSource().equals(ventana.getTiempo())) {
+            ventana.getMiModelo().ControlTiempo();
+        }
     }
 
 }

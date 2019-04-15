@@ -31,9 +31,29 @@ public class Modelo {
             getJuego().getSudokuUno().generar();
             ventanaJuego.setSudoku(getJuego().getSudokuUno().getSudoku());
             ventanaJuego.llenarCampos();
+            ventanaJuego.setMinutos(getJuego().getSudokuUno().getDificultad());
+            ventanaJuego.setSegundos(0);
             this.colorearCuadro();
+            ventanaJuego.getLblTiempoCambiante().setText(String.valueOf(ventanaJuego.getMinutos()));
+            ventanaJuego.getLblTiempoCambianteS().setText(String.valueOf(ventanaJuego.getSegundos()));
         }
         return ventanaJuego;
+    }
+    
+    public void ControlTiempo(){
+            ventanaJuego.setSegundos(ventanaJuego.getSegundos() - 1);   
+            if (ventanaJuego.getSegundos() < 0){
+                ventanaJuego.setSegundos(59);
+                ventanaJuego.setMinutos(ventanaJuego.getMinutos() - 1);
+            } 
+            if(ventanaJuego.getSegundos() == 0 && ventanaJuego.getMinutos() == 0){
+                JOptionPane.showMessageDialog(null, "Se ha quedado sin tiempo");
+                ventanaJuego.getTiempo().stop();
+                this.btnVolver();
+            }else{
+            ventanaJuego.getLblTiempoCambiante().setText(String.valueOf(ventanaJuego.getMinutos()));
+            ventanaJuego.getLblTiempoCambianteS().setText(String.valueOf(ventanaJuego.getSegundos()));
+            }
     }
 
     public void salir() {
@@ -41,6 +61,9 @@ public class Modelo {
     }
 
     public void btnVolver() {
+        ventanaJuego.getTiempo().stop();
+        ventanaJuego.setMinutos(0);
+        ventanaJuego.setSegundos(0);
         ventanaJuego.dispose();
         ventanaDeInicio.setVisible(true);
         ventanaJuego=null;

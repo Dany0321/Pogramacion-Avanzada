@@ -35,8 +35,12 @@
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="lblTiempo" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="lblTiempoCambiante" min="-2" pref="32" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+                      <Component id="lblTiempoCambiante" min="-2" pref="18" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblDosPuntos" min="-2" pref="10" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblTiempoCambianteS" min="-2" pref="18" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
@@ -57,12 +61,14 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblTiempoCambiante" alignment="1" min="-2" pref="23" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="lblTiempoCambianteS" max="32767" attributes="0"/>
+                  <Component id="lblTiempoCambiante" alignment="0" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnVolver" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="lblTiempo" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="lblDosPuntos" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="385" max="32767" attributes="0"/>
               <Component id="lblMensajeError" min="-2" max="-2" attributes="0"/>
@@ -103,6 +109,13 @@
     <Component class="javax.swing.JLabel" name="lblTiempoCambiante">
     </Component>
     <Component class="javax.swing.JLabel" name="lblMensajeError">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblTiempoCambianteS">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblDosPuntos">
+      <Properties>
+        <Property name="text" type="java.lang.String" value=":"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

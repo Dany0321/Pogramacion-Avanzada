@@ -32,7 +32,7 @@ public class controladorMenu implements ActionListener,ItemListener {
         if(e.getSource().equals(ventana.getComboDificultad())){
             switch(ventana.getComboDificultad().getSelectedItem().toString()){
                 case "Facil":
-                    ventana.getModeloUno().seleccionarDificultad(40);
+                    ventana.getModeloUno().seleccionarDificultad(45);
                     break;
                 case "Normal":
                     ventana.getModeloUno().seleccionarDificultad(25);
