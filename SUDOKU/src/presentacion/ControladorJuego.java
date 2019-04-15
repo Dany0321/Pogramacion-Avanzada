@@ -15,7 +15,10 @@ public class ControladorJuego implements ActionListener  {
     }
 //MÉTODOS
 
-    @Override
+   /**
+    * Metodo que controla la interaccion del usuario con la ventana de juego
+    * @param e = atributo que reconoce la accion dada por el usuario
+    */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(ventana.getBtnVolver())) {
             ventana.getMiModelo().btnVolver();

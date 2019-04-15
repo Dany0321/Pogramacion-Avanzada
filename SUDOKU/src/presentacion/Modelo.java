@@ -6,11 +6,16 @@ import logic.App;
 public class Modelo {
 
     //ATRIBUTOS
+    
     private VistaMenu ventanaDeInicio;
     private VistaJuego ventanaJuego;
     private App juego;
 
     //MÉTODOS
+    
+    /**
+     * Metodo que iniciliza la vista del menu
+     */
     public void iniciarVentana() {
         getVentanaDeInicio().setTitle("SUDOKU");
         getVentanaDeInicio().setResizable(false);
@@ -18,6 +23,9 @@ public class Modelo {
         getVentanaDeInicio().setVisible(true);
     }
 
+    /**
+     * Metodo que incializa la ventana del juego 
+     */
     public void iniciarPartida() {
         getVentanaDeInicio().setVisible(false);
         getVentanaJuego().setTitle("SUDOKU");
@@ -25,6 +33,11 @@ public class Modelo {
         getVentanaJuego().setLocationRelativeTo(null);
         getVentanaJuego().setVisible(true);
     }
+   
+    /** 
+     * Metodo getter que instancia todas las propiedades de la ventana de juego
+     * @return 
+     */
     public VistaJuego getVentanaJuego() {
         if (ventanaJuego == null) {
             ventanaJuego = new VistaJuego(this);            
@@ -40,6 +53,9 @@ public class Modelo {
         return ventanaJuego;
     }
     
+    /**
+     * Metodo para controlar el tiempo limite del usuario para solucionar el sudoku
+     */
     public void ControlTiempo(){
             ventanaJuego.setSegundos(ventanaJuego.getSegundos() - 1);   
             if (ventanaJuego.getSegundos() < 0){
@@ -56,10 +72,16 @@ public class Modelo {
             }
     }
 
+    /**
+     * Metodo para salir del programa
+     */
     public void salir() {
         System.exit(0);
     }
 
+    /**
+     * Metodo que reacciona al boton volver del usuario
+     */
     public void btnVolver() {
         ventanaJuego.getTiempo().stop();
         ventanaJuego.setMinutos(0);
@@ -69,6 +91,9 @@ public class Modelo {
         ventanaJuego=null;
     }
     
+    /**
+     * Metodo que reacciona al boton de comprobar solucion del usuario
+     */
     public void btnComprobarSolucion(){
         ventanaJuego.recogerSolucion();
         if(juego.getSudokuUno().comprobarSolucion(ventanaJuego.getSolucionUsuario())){
@@ -79,6 +104,10 @@ public class Modelo {
             JOptionPane.showMessageDialog(null,"Esta mal, por favor confirme su solucion");
         }
     }
+    
+    /**
+     * Metodo que colorea los cuadrantes del sudoku mostrado al usuario
+     */
     public void colorearCuadro(){
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -88,6 +117,10 @@ public class Modelo {
         }
     }
             
+    /**
+     * Metodo getter que instancia todas las propiedades de la ventana de menu
+     * @return 
+     */
     public VistaMenu getVentanaDeInicio() {
         if (ventanaDeInicio == null) {
 
@@ -96,17 +129,28 @@ public class Modelo {
         return ventanaDeInicio;
     }
     
+    /**
+     * Metodo que reacciona al boton reiniciar del usuario
+     */
     public void btnReiniciar(){
         ventanaJuego.reiniciarCampos();
     }
 
+    /**
+     * Metodo getter que instancia todas las propiedades de la clase abstracta App
+     * @return juego
+     */
     public App getJuego() {
         if (juego == null) {
             juego = new App();
         }
         return juego;
-    }
-
+    }   
+    
+    /**
+     * Metodo para colocar la dificultad del juego
+     * @param valorDificuldad 
+     */
     public void seleccionarDificultad(int valorDificuldad) {
         getJuego().getSudokuUno().setDificultad(valorDificuldad);
     }
