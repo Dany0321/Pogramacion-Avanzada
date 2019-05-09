@@ -5,7 +5,13 @@
  */
 package Presentacion;
 
+
+import java.awt.Canvas;
+import java.awt.Graphics;
+
 import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
+
 import javax.swing.JButton;
 
 /**
@@ -17,17 +23,28 @@ public class Vista extends javax.swing.JFrame {
     private Controlador miControl;
     private Modelo miModelo;
 
-    public Controlador getmiControl() {
-        if (miControl == null) {
-            miControl= new Controlador (this);
-        }
-        return miControl;
-    }
-
     Vista(Modelo m) {
         initComponents();
         miModelo = m;
         capturareventos();
+    }
+
+   /**
+    * Metodo para dibujar los iconos en el canvas
+    * @param x coordenada horizontal
+    * @param y coordenada vertical
+    * @param img icono
+    * @param g lapiz que pertenece al canvas
+    */
+    public void imprimirMemes(int x, int y, ImageIcon img){
+        canvas1.getGraphics().drawImage(img.getImage(), x, y,null);
+    }
+    
+    public Controlador getmiControl() {
+        if (miControl == null) {
+            miControl = new Controlador(this);
+        }
+        return miControl;
     }
 
     public void capturareventos() {
@@ -42,6 +59,12 @@ public class Vista extends javax.swing.JFrame {
     public JButton getBtnSalir() {
         return btnSalir;
     }
+
+    public Canvas getCanvas1() {
+        return canvas1;
+    }
+    
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -91,20 +114,23 @@ public class Vista extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(lblPuntuacion)
-                .addGap(13, 13, 13)
-                .addComponent(lblPuntuacionNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTiempo)
-                    .addComponent(lblTiempoSegundos, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(360, 360, 360)
-                .addComponent(btnSalir))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(lblPuntuacion)
+                        .addGap(13, 13, 13)
+                        .addComponent(lblPuntuacionNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblTiempo)
+                            .addComponent(lblTiempoSegundos, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(360, 360, 360)
+                        .addComponent(btnSalir)))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         pack();
