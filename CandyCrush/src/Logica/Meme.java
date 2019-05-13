@@ -5,6 +5,9 @@
  */
 package Logica;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 /**
@@ -13,31 +16,33 @@ import javax.swing.ImageIcon;
  */
 public class Meme {
 
-    private ImageIcon imgn;
+    private BufferedImage imgn;
 
     
-    public Meme(int dulce) {
+    public Meme(int dulce) throws IOException {
         switch (dulce) {
             case 1:
-                imgn = new ImageIcon("img/1.png");                
+                imgn = ImageIO.read(getClass().getResource("/Imagenes/1.png"));                
                 break;
             case 2:
-                imgn = new ImageIcon("img/2.png");
+                imgn = ImageIO.read(getClass().getResource("/Imagenes/2.png"));  
                 break;
             case 3:
-                imgn = new ImageIcon("img/3.png");
+                imgn = ImageIO.read(getClass().getResource("/Imagenes/3.png"));  
                 break;
             case 4:
-                imgn = new ImageIcon("img/4.png");
+                imgn = ImageIO.read(getClass().getResource("/Imagenes/4.png"));  
                 break;
             case 5:
-                imgn = new ImageIcon("img/5.png");
+                imgn = ImageIO.read(getClass().getResource("/Imagenes/5.png"));  
                 break;
+            default:
+                System.out.println("no sirvo");
 
         }
     }
 
-    public ImageIcon getImgn() {
+    public BufferedImage getImgn() {
         return imgn;
     }
     

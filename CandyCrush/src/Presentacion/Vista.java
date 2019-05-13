@@ -8,8 +8,11 @@ package Presentacion;
 
 import java.awt.Canvas;
 import java.awt.Graphics;
+import java.awt.Image;
 
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 
 import javax.swing.JButton;
@@ -18,14 +21,22 @@ import javax.swing.JButton;
  *
  * @author Estudiantes
  */
-public class Vista extends javax.swing.JFrame {
+public class Vista extends javax.swing.JFrame{
 
     private Controlador miControl;
     private Modelo miModelo;
+    private int[][] matrizDePrueba;
+    private int nClicks = 0;
+    private int[] posMouse1 = new int[2];
+    private int[] posMouse2 = new int[2];
+    
 
     Vista(Modelo m) {
         initComponents();
+        this.setLocationRelativeTo(null);
         miModelo = m;
+        matrizDePrueba = miModelo.getMiJuego().getMemeCrush();
+        canvas1.addMouseListener(getmiControl());
         capturareventos();
     }
 
@@ -36,8 +47,8 @@ public class Vista extends javax.swing.JFrame {
     * @param img icono
     * @param g lapiz que pertenece al canvas
     */
-    public void imprimirMemes(int x, int y, ImageIcon img){
-        canvas1.getGraphics().drawImage(img.getImage(), x, y,null);
+    public void imprimirMemes(int x, int y, Image img){
+        canvas1.getGraphics().drawImage(img, x, y,null);
     }
     
     public Controlador getmiControl() {
@@ -45,6 +56,17 @@ public class Vista extends javax.swing.JFrame {
             miControl = new Controlador(this);
         }
         return miControl;
+    }
+    /**
+     * Metodo para relacionar la coordenada en el canvas con la posicion en la matriz numerica
+     */
+    public int[] reconocerCoordenada(int x, int y){
+        int pos1 = (int) Math.floor(x/44);
+        int pos2 = (int) Math.floor(y/44);
+        int[] coordenada = new int[2];
+        coordenada[0] = pos1;
+        coordenada[1] = pos2;
+        return coordenada;
     }
 
     public void capturareventos() {
@@ -63,6 +85,36 @@ public class Vista extends javax.swing.JFrame {
     public Canvas getCanvas1() {
         return canvas1;
     }
+
+
+    public int getnClicks() {
+        return nClicks;
+    }
+
+    public void setnClicks(int nClicks) {
+        this.nClicks = nClicks;
+    }
+
+    public int[] getPosMouse1() {
+        return posMouse1;
+    }
+
+    public void setPosMouse1(int[] posMouse1) {
+        this.posMouse1 = posMouse1;
+    }
+
+    public int[] getPosMouse2() {
+        return posMouse2;
+    }
+
+    public void setPosMouse2(int[] posMouse2) {
+        this.posMouse2 = posMouse2;
+    }
+
+    public int[][] getMatrizDePrueba() {
+        return matrizDePrueba;
+    }
+    
     
     
 
@@ -78,6 +130,7 @@ public class Vista extends javax.swing.JFrame {
         canvas1 = new java.awt.Canvas();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -150,7 +203,5 @@ public class Vista extends javax.swing.JFrame {
     private javax.swing.JLabel lblTiempoSegundos;
     // End of variables declaration//GEN-END:variables
 
-    private ActionListener get() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
 }
