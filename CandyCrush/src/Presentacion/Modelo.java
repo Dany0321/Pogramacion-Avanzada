@@ -29,6 +29,9 @@ public class Modelo {
         getMiJuego().asignarMemes();
         getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
         inicializarMemes();
+        System.out.println("\nLa nueva matriz es: \n\n");
+        getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
+        
 
     }
 
@@ -48,9 +51,7 @@ public class Modelo {
      * Metodo para ver si las coordenadas de click del mouse son correctas para
      * hacer cambios Las coordenadas estan en terminos de x, y (no de i,j)
      */
-    public boolean comprobarPosibleMovimiento() {
-        int[] coordernadas1 = getMiVista().reconocerCoordenada(getMiVista().getPosMouse1()[0], getMiVista().getPosMouse1()[1]);
-        int[] coordernadas2 = getMiVista().reconocerCoordenada(getMiVista().getPosMouse2()[0], getMiVista().getPosMouse2()[1]);
+    public boolean comprobarPosibleMovimiento(int[] coordernadas1 , int[] coordernadas2) {
         //ESQUINA SUPERIOR IZQUIERDA
         if (coordernadas1[0] == 0 && coordernadas1[1] == 0) {
             if ((coordernadas2[0] == 1 && coordernadas2[1] == 0) || (coordernadas2[0] == 0 && coordernadas2[1] == 1)) {
@@ -136,6 +137,31 @@ public class Modelo {
 
         return false;
     }
+    /**
+     * Metodo para intercambiar el numero de los click que da el usuario
+     */
+    public void intercambiarNumero(int x1, int x2, int y1, int y2){
+        int numeroGuardado = 0;
+        numeroGuardado = getMiVista().getMatrizDePrueba()[x2][y2];
+        getMiVista().setMatrizDePrueba(x2, y2, getMiVista().getMatrizDePrueba()[x1][y1]);
+        getMiVista().setMatrizDePrueba(x1, y1, numeroGuardado);
+    }
+    
+    /**
+     * Metodo de interaccion de usuario 
+     */    
+    public void interaccionDeUsuario(){
+        int[] coordernadas1 = getMiVista().reconocerCoordenada(getMiVista().getPosMouse1()[0], getMiVista().getPosMouse1()[1]);
+        int[] coordernadas2 = getMiVista().reconocerCoordenada(getMiVista().getPosMouse2()[0], getMiVista().getPosMouse2()[1]);
+        if (comprobarPosibleMovimiento(coordernadas1,coordernadas2)){
+            this.intercambiarNumero(coordernadas1[0], coordernadas2[0], coordernadas1[1], coordernadas2[1]);
+            if (getMiJuego().comprobarValidezDeCambioNumerico(getMiVista().getMatrizDePrueba())) {
+                getMiJuego().borrarSoluciones(getMiVista().getMatrizDePrueba(), coordernadas2[0], coordernadas2[1]);
+                getMiJuego().subirCeros(getMiVista().getMatrizDePrueba());
+                getMiJuego().llenarAleatorio(getMiVista().getMatrizDePrueba());
+            }
+        }
+    }
 
     /**
      * Metodo que pone las coordenadas del click del mouse en un arreglo
@@ -154,8 +180,8 @@ public class Modelo {
             getMiVista().getPosMouse2()[0] = x;
             getMiVista().getPosMouse2()[1] = y;
             System.out.println("Dio el segundo click");
-            System.out.println(comprobarPosibleMovimiento());
             getMiVista().setnClicks(0);
+            interaccionDeUsuario();
 
         }
     }
