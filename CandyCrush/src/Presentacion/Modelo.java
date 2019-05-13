@@ -27,10 +27,11 @@ public class Modelo {
         getMiJuego().llenarAleatorio();
         getMiJuego().corregirErrores();
         getMiJuego().asignarMemes();
-        getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
+        
         inicializarMemes();
-        System.out.println("\nLa nueva matriz es: \n\n");
+        System.out.println("La matriz original es:");
         getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
+       
         
 
     }
@@ -142,9 +143,9 @@ public class Modelo {
      */
     public void intercambiarNumero(int x1, int x2, int y1, int y2){
         int numeroGuardado = 0;
-        numeroGuardado = getMiVista().getMatrizDePrueba()[x2][y2];
-        getMiVista().setMatrizDePrueba(x2, y2, getMiVista().getMatrizDePrueba()[x1][y1]);
-        getMiVista().setMatrizDePrueba(x1, y1, numeroGuardado);
+        numeroGuardado = getMiVista().getMatrizDePrueba()[y2][x2];
+        getMiVista().setMatrizDePrueba(y2, x2, getMiVista().getMatrizDePrueba()[y1][x1]);
+        getMiVista().setMatrizDePrueba(y1, x1, numeroGuardado);
     }
     
     /**
@@ -155,11 +156,9 @@ public class Modelo {
         int[] coordernadas2 = getMiVista().reconocerCoordenada(getMiVista().getPosMouse2()[0], getMiVista().getPosMouse2()[1]);
         if (comprobarPosibleMovimiento(coordernadas1,coordernadas2)){
             this.intercambiarNumero(coordernadas1[0], coordernadas2[0], coordernadas1[1], coordernadas2[1]);
-            if (getMiJuego().comprobarValidezDeCambioNumerico(getMiVista().getMatrizDePrueba())) {
-                getMiJuego().borrarSoluciones(getMiVista().getMatrizDePrueba(), coordernadas2[0], coordernadas2[1]);
-                getMiJuego().subirCeros(getMiVista().getMatrizDePrueba());
-                getMiJuego().llenarAleatorio(getMiVista().getMatrizDePrueba());
-            }
+            System.out.println("\nme movi: \n\n");
+            getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
+            getMiJuego().obtenerNumeroParaBorrarX(getMiVista().getMatrizDePrueba());
         }
     }
 
@@ -182,7 +181,6 @@ public class Modelo {
             System.out.println("Dio el segundo click");
             getMiVista().setnClicks(0);
             interaccionDeUsuario();
-
         }
     }
 

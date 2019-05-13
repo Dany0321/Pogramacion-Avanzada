@@ -26,7 +26,7 @@ public class MemeCrush {
         int numeroAleatorio;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                numeroAleatorio = (int) (Math.random() * 5);
+                numeroAleatorio = (int) (Math.random() * 5) + 1;
                 this.memeCrush[i][j] = numeroAleatorio;
             }
         }
@@ -128,43 +128,49 @@ public class MemeCrush {
 
     }
 
-    /**
-     * Metodo que busca en la matriz cuantos numeros hay seguidos en X y retorna
-     * ese numero, para luego borrar eso en la matriz con otro metodo
-     *
-     * @param matrizComprobante matriz a verificar
-     * @return int que expresa ese numero de veces para borrar
-     */
-    public int[] obtenerNumeroParaBorrarX(int[][] matrizComprobante) {
-        int cont = 0;
-        int posx = 0, posy = 0;
-        int[] borrar = new int[3];
+    //ARRGELAR ESTE METODO, CUANDO ENCUENTRE TRES SEGUIDOS, LOS BORRA. lUEGO PREGUNTA SI EL NUMERO QUE ESTA SIENDO EVALUADO ES != 0 Y SI LO ES 
+    //PREGUNTA SI EL NUMERO ANTERIOR ES 0, SI ESTO SE CUMPLE SE GUARDA EL VALOR QUE ESTA SIENDO EVALUADO EN UNA VARABLE N, Y SE REEMPLAZA ESA POSICION POR 0
+    //LUEGO SE VUELVE A PREGUNTAR EN EL SIGUIENTE DE LA MISMA FORMA QUE EN EL PUNTO ANTERIOR, ASI ENCONTRARA TODOS LOS QUE SEAN IGUALES EN UNA FILA
+    
+    public int obtenerNumeroParaBorrarX(int[][] matrizComprobante) {
+        int n = 0;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (i == 8) {
+                if (j == 7 || j == 8) {
                     continue;
                 }
-                if (matrizComprobante[i][j] == matrizComprobante[i + 1][j]) {
-                    cont = cont + 1;
-                    if (cont == 1) {
-                        posx = i;
-                        posy = j;
+                if (matrizComprobante[i][j] == 0) {
+                    continue;
+                }
+                if (matrizComprobante[i][j] == matrizComprobante[i][j + 1] && matrizComprobante[i][j] == matrizComprobante[i][j + 2]) {
+                    n = 2;
+                    if (j == 6) {
+                        System.out.println("En x encontré el amor, osea : " + n);        
+                        return n;
+                    } else {
+                        if (matrizComprobante[i][j] == matrizComprobante[i][j + 3]) {
+                            n = 3;
+                            if (j==5){
+                                System.out.println("En x encontré el amor, osea : " + n);        
+                                return n;
+                            }else{
+                                if (matrizComprobante[i][j]==matrizComprobante[i][j+4]){
+                                    n = 4;
+                                }
+                                System.out.println("En x encontré el amor, osea : " + n);        
+                                return n;
+                            }
+                        }
+
                     }
-                } else {
-                    if (cont < 3) {
-                        cont = 0;
-                        posx = 0;
-                        posy = 0;
-                    }
+                }else{
+                    n = 0;
                 }
 
             }
         }
-        System.out.println("x: " + cont);
-        borrar[0] = cont;
-        borrar[1] = posx;
-        borrar[2] = posy;
-        return borrar;
+        System.out.println("En x encontré el amor, osea : " + n);        
+        return n;
     }
 
     /**
@@ -175,34 +181,7 @@ public class MemeCrush {
      * @return int que expresa ese numero de veces para borrar
      */
     public int[] obtenerNumeroParaBorrarY(int[][] matrizComprobante) {
-        int cont = 0;
-        int posx = 0, posy = 0;
-        int[] borrar = new int[3];
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (j == 8) {
-                    continue;
-                }
-                if (matrizComprobante[i][j] == matrizComprobante[i][j + 1]) {
-                    cont = cont + 1;
-                    if (cont == 1) {
-                        posx = i;
-                        posy = j;
-                    }
-                } else {
-                    if (cont < 3) {
-                        cont = 0;
-                        posx = 0;
-                        posy = 0;
-                    }
-                }
-            }
-        }
-        System.out.println("y: " + cont);
-        borrar[0] = cont;
-        borrar[1] = posx;
-        borrar[2] = posy;
-        return borrar;
+
     }
 
     /**
@@ -215,35 +194,7 @@ public class MemeCrush {
      * movimiento
      */
     public void borrarSoluciones(int[][] matrizComprobante, int posxUsuario, int posyUsuario) {
-        int[] x = obtenerNumeroParaBorrarX(matrizComprobante);
-        int[] y = obtenerNumeroParaBorrarY(matrizComprobante);
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (i != x[1] && j != x[2]) {
-                    continue;
-                }
-                for (int k = 0; k < x[0]; k++) {
-                    if (i == posxUsuario && j == posyUsuario) {
-                        continue;
-                    }
-                    matrizComprobante[i + k][j] = 0;
-                }
-            }
-        }
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (i != y[1] && j != x[2]) {
-                    continue;
-                }
-                for (int k = 0; k < y[0]; k++) {
-                    if (i == posxUsuario && j == posyUsuario) {
-                        continue;
-                    }
-                    matrizComprobante[i][j + k] = 0;
-                }
-            }
-        }
-        matrizComprobante[posxUsuario][posyUsuario] = 0;
+
     }
 
     //HAY QUE HACER UN METODO PARA SUBIR LOS CEROS, recorrer la matriz en busca de 0 (exeptuando la primera fila)
@@ -276,17 +227,19 @@ public class MemeCrush {
         }
 
     }
+
     /**
-     * Metodo que comprueba si el cambio hecho por el usuario es valido NUMERICAMENTE     
+     * Metodo que comprueba si el cambio hecho por el usuario es valido
+     * NUMERICAMENTE
      */
-    public boolean comprobarValidezDeCambioNumerico(int[][] matrizComprobante){
+    public boolean comprobarValidezDeCambioNumerico(int[][] matrizComprobante) {
         int SolucionesEnX[] = this.obtenerNumeroParaBorrarX(matrizComprobante);
         int SolucionesEnY[] = this.obtenerNumeroParaBorrarY(matrizComprobante);
-        if (SolucionesEnX[0]==0 && SolucionesEnY[0]==0 ){
-            return false;            
-        }else{
+        if (SolucionesEnX[0] == 0 && SolucionesEnY[0] == 0) {
+            return false;
+        } else {
             return true;
-        }        
+        }
     }
 
     //GETTERS Y SETTERS
