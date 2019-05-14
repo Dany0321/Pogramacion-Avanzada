@@ -9,6 +9,7 @@ import Presentacion.Modelo;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jdk.nashorn.internal.ir.ContinueNode;
 
 /**
  *
@@ -132,45 +133,125 @@ public class MemeCrush {
     //PREGUNTA SI EL NUMERO ANTERIOR ES 0, SI ESTO SE CUMPLE SE GUARDA EL VALOR QUE ESTA SIENDO EVALUADO EN UNA VARABLE N, Y SE REEMPLAZA ESA POSICION POR 0
     //LUEGO SE VUELVE A PREGUNTAR EN EL SIGUIENTE DE LA MISMA FORMA QUE EN EL PUNTO ANTERIOR, ASI ENCONTRARA TODOS LOS QUE SEAN IGUALES EN UNA FILA
     
-    public int obtenerNumeroParaBorrarX(int[][] matrizComprobante) {
-        int n = 0;
+    public int [][] clonarMatriz(int[][] matrizComprobante){
+        int[][] m = new int[9][9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (j == 7 || j == 8) {
-                    continue;
-                }
-                if (matrizComprobante[i][j] == 0) {
-                    continue;
-                }
-                if (matrizComprobante[i][j] == matrizComprobante[i][j + 1] && matrizComprobante[i][j] == matrizComprobante[i][j + 2]) {
-                    n = 2;
-                    if (j == 6) {
-                        System.out.println("En x encontré el amor, osea : " + n);        
-                        return n;
-                    } else {
-                        if (matrizComprobante[i][j] == matrizComprobante[i][j + 3]) {
-                            n = 3;
-                            if (j==5){
-                                System.out.println("En x encontré el amor, osea : " + n);        
-                                return n;
-                            }else{
-                                if (matrizComprobante[i][j]==matrizComprobante[i][j+4]){
-                                    n = 4;
-                                }
-                                System.out.println("En x encontré el amor, osea : " + n);        
-                                return n;
-                            }
-                        }
-
-                    }
-                }else{
-                    n = 0;
-                }
-
+                m[i][j] = matrizComprobante[i][j];
             }
         }
-        System.out.println("En x encontré el amor, osea : " + n);        
-        return n;
+        return m;
+    }
+    
+    public int [][] borrarEnX(int[][] matrizComprobante) {
+        int numeroGuardado=0;
+        int[][] matrizDeX = clonarMatriz(matrizComprobante);
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+               
+                if (matrizDeX[i][j]==0)
+                    continue;
+                if ((j!=7 && j!=8) && (matrizDeX[i][j]== matrizDeX[i][j+1] && matrizDeX[i][j]== matrizDeX[i][j+2])){
+                    numeroGuardado= matrizDeX[i][j];
+                    borrador(i,j,matrizDeX);
+                    borrador(i, j+1, matrizDeX);
+                    borrador(i, j+2, matrizDeX);                    
+                }
+                if (j!=0 && (matrizDeX[i][j-1]==0)){
+                    if(matrizDeX[i][j]==numeroGuardado){
+                        borrador(i, j, matrizDeX);
+                    }else{
+                        continue;
+                    }
+                }
+                
+            }
+        }
+        return matrizDeX;
+    }
+    
+    public int [][] borrarEnY(int[][] matrizComprobante) {
+        int numeroGuardado=0;
+        int[][] matrizDeY = clonarMatriz(matrizComprobante);
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (matrizDeY[i][j]==0)
+                    continue;
+                if ((i!=7 && i!=8) && (matrizDeY[i][j]== matrizDeY[i+1][j] && matrizDeY[i][j]== matrizDeY[i+2][j])){
+                    numeroGuardado= matrizDeY[i][j];
+                    borrador(i,j,matrizDeY);
+                    borrador(i+1, j, matrizDeY);
+                    borrador(i+2, j, matrizDeY);                    
+                }
+                if (i!=0 && (matrizDeY[i-1][j]==0)){
+                    if(matrizDeY[i][j]==numeroGuardado){
+                        borrador(i, j, matrizDeY);
+                    }else{
+                        continue;
+                    }
+                }
+                
+            }
+        }
+        return matrizDeY;
+    }
+    
+    /**
+     * Metodo que fusiona las matrices que borran las soluciones en X y Y
+     *
+     * @param matrizComprobante
+     * @return matriz con las soluciones = a 0
+     */
+    
+    public  int [][] BorrarSoluciones(int[][] matrizComprobante){
+        int[][] m = clonarMatriz(matrizComprobante);
+        int[][] matrizDeY = borrarEnY(matrizComprobante);
+        int[][] matrizDeX = borrarEnX(matrizComprobante);
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (matrizDeX[i][j] == matrizDeY[i][j]){
+                    continue;
+                }else{
+                    m[i][j] = 0;
+                }
+            }
+        }
+        return m;
+    }
+    
+    public boolean ComprobarExistenciarSolucionEnX(int[][] matrizComprobante) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (matrizComprobante[i][j]==0)
+                    continue;
+                if ((j!=7 && j!=8) && (matrizComprobante[i][j]== matrizComprobante[i][j+1] && matrizComprobante[i][j]== matrizComprobante[i][j+2])){
+                    return true;
+                } 
+            }
+        }
+        return false;
+    }
+    
+    public boolean ComprobarExistenciarSolucionEnY(int[][] matrizComprobante) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (matrizComprobante[i][j]==0)
+                    continue;
+                if ((i!=7 && i!=8) && (matrizComprobante[i][j]== matrizComprobante[i+1][j] && matrizComprobante[i][j]== matrizComprobante[i+2][j])){
+                    return true;
+                } 
+            }
+        }
+        return false;
+    }
+    /**
+     * Metodo que comprueba si el cambio hecho por el usuario es valido
+     * NUMERICAMENTE
+     */
+    public boolean ComprobarExistenciaSolucion(int[][] matrizComprobante){
+        if(ComprobarExistenciarSolucionEnX(matrizComprobante) || ComprobarExistenciarSolucionEnY(matrizComprobante))
+            return true;
+        return false;
     }
 
     /**
@@ -180,9 +261,6 @@ public class MemeCrush {
      * @param matrizComprobante matriz a verificar
      * @return int que expresa ese numero de veces para borrar
      */
-    public int[] obtenerNumeroParaBorrarY(int[][] matrizComprobante) {
-
-    }
 
     /**
      * Remplaza los meme que forman parte de la solucion por 0
@@ -193,9 +271,6 @@ public class MemeCrush {
      * @param posyUsuario coordinada en j a la que el usuario realizo el
      * movimiento
      */
-    public void borrarSoluciones(int[][] matrizComprobante, int posxUsuario, int posyUsuario) {
-
-    }
 
     //HAY QUE HACER UN METODO PARA SUBIR LOS CEROS, recorrer la matriz en busca de 0 (exeptuando la primera fila)
     //si encuentra un cero lo cambia con el que tenga arriba y aumenta el valor de un contador cuando termina el metodo
@@ -228,19 +303,8 @@ public class MemeCrush {
 
     }
 
-    /**
-     * Metodo que comprueba si el cambio hecho por el usuario es valido
-     * NUMERICAMENTE
-     */
-    public boolean comprobarValidezDeCambioNumerico(int[][] matrizComprobante) {
-        int SolucionesEnX[] = this.obtenerNumeroParaBorrarX(matrizComprobante);
-        int SolucionesEnY[] = this.obtenerNumeroParaBorrarY(matrizComprobante);
-        if (SolucionesEnX[0] == 0 && SolucionesEnY[0] == 0) {
-            return false;
-        } else {
-            return true;
-        }
-    }
+    
+
 
     //GETTERS Y SETTERS
     public Meme[][] getMemeCrushImg() {
@@ -249,6 +313,10 @@ public class MemeCrush {
 
     public int[][] getMemeCrush() {
         return memeCrush;
+    }
+
+    private void borrador(int i, int j, int [][] matriz) {
+        matriz[i][j]=0;
     }
 
 }

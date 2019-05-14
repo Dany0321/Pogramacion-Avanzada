@@ -27,12 +27,10 @@ public class Modelo {
         getMiJuego().llenarAleatorio();
         getMiJuego().corregirErrores();
         getMiJuego().asignarMemes();
-        
+
         inicializarMemes();
         System.out.println("La matriz original es:");
         getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
-       
-        
 
     }
 
@@ -52,7 +50,7 @@ public class Modelo {
      * Metodo para ver si las coordenadas de click del mouse son correctas para
      * hacer cambios Las coordenadas estan en terminos de x, y (no de i,j)
      */
-    public boolean comprobarPosibleMovimiento(int[] coordernadas1 , int[] coordernadas2) {
+    public boolean comprobarPosibleMovimiento(int[] coordernadas1, int[] coordernadas2) {
         //ESQUINA SUPERIOR IZQUIERDA
         if (coordernadas1[0] == 0 && coordernadas1[1] == 0) {
             if ((coordernadas2[0] == 1 && coordernadas2[1] == 0) || (coordernadas2[0] == 0 && coordernadas2[1] == 1)) {
@@ -138,27 +136,47 @@ public class Modelo {
 
         return false;
     }
+
     /**
      * Metodo para intercambiar el numero de los click que da el usuario
      */
-    public void intercambiarNumero(int x1, int x2, int y1, int y2){
+    public void intercambiarNumero(int x1, int x2, int y1, int y2) {
         int numeroGuardado = 0;
         numeroGuardado = getMiVista().getMatrizDePrueba()[y2][x2];
         getMiVista().setMatrizDePrueba(y2, x2, getMiVista().getMatrizDePrueba()[y1][x1]);
         getMiVista().setMatrizDePrueba(y1, x1, numeroGuardado);
     }
-    
+
     /**
-     * Metodo de interaccion de usuario 
-     */    
-    public void interaccionDeUsuario(){
+     * Metodo de interaccion de usuario
+     */
+    public void interaccionDeUsuario() {
         int[] coordernadas1 = getMiVista().reconocerCoordenada(getMiVista().getPosMouse1()[0], getMiVista().getPosMouse1()[1]);
         int[] coordernadas2 = getMiVista().reconocerCoordenada(getMiVista().getPosMouse2()[0], getMiVista().getPosMouse2()[1]);
-        if (comprobarPosibleMovimiento(coordernadas1,coordernadas2)){
+        if (comprobarPosibleMovimiento(coordernadas1, coordernadas2)) {
             this.intercambiarNumero(coordernadas1[0], coordernadas2[0], coordernadas1[1], coordernadas2[1]);
-            System.out.println("\nme movi: \n\n");
-            getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
-            getMiJuego().obtenerNumeroParaBorrarX(getMiVista().getMatrizDePrueba());
+            if (getMiJuego().ComprobarExistenciaSolucion(getMiVista().getMatrizDePrueba())) {
+                System.out.println("\nme movi: \n\n");
+                getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
+                while (getMiJuego().ComprobarExistenciaSolucion(getMiVista().getMatrizDePrueba())) {
+                    System.out.println("\n Borre las soluciones: \n\n");
+                    getMiVista().setMatrizDePrueba(getMiJuego().BorrarSoluciones(getMiVista().getMatrizDePrueba()));
+                    getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
+                    System.out.println("Aqui subi los ceros\n\n");
+                    getMiJuego().subirCeros(getMiVista().getMatrizDePrueba());
+                    getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
+                    System.out.println("Ya estoy lleno :v\n\n");
+                    getMiJuego().llenarAleatorio(getMiVista().getMatrizDePrueba());
+                    getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
+                }
+                System.out.println("quede asi :O (cuanto poder)");
+                getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
+            }else{
+                this.intercambiarNumero(coordernadas2[0], coordernadas1[0], coordernadas2[1], coordernadas1[1]);
+                System.out.println("quede asi :O (cuanto poder)");
+                getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
+            }
+
         }
     }
 

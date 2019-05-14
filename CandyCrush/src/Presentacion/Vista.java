@@ -115,6 +115,12 @@ public class Vista extends javax.swing.JFrame{
         return matrizDePrueba;
     }
 
+    public void setMatrizDePrueba(int[][] matrizDePrueba) {
+        this.matrizDePrueba = matrizDePrueba;
+    }
+    
+    
+
     public void setMatrizDePrueba(int x, int y, int numeroACambiar) {
         matrizDePrueba[x][y] = numeroACambiar;
     }
