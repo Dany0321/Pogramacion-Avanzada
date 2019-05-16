@@ -228,7 +228,7 @@ public class Modelo implements Runnable {
                 getMiVista().getPosMouse2()[1] = y;
                 System.out.println("Dio el segundo click");
                 getMiVista().setnClicks(0);
-                hilo.start();
+                hilo.run();
             }
         } catch (IOException ex) {
             Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
@@ -247,31 +247,32 @@ public class Modelo implements Runnable {
             int[] coordernadas2 = getMiVista().reconocerCoordenada(getMiVista().getPosMouse2()[0], getMiVista().getPosMouse2()[1]);
             if (comprobarPosibleMovimiento(coordernadas1, coordernadas2)) {
                 this.intercambiarNumero(coordernadas1[0], coordernadas2[0], coordernadas1[1], coordernadas2[1]);
-                Thread.sleep(100);
+                Thread.sleep(50);
                 actualizarCanvas();
                 getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
                 if (getMiJuego().ComprobarExistenciaSolucion(getMiVista().getMatrizDePrueba())) {
                     while (getMiJuego().ComprobarExistenciaSolucion(getMiVista().getMatrizDePrueba())) {
                         getMiVista().setMatrizDePrueba(getMiJuego().BorrarSoluciones(getMiVista().getMatrizDePrueba()));
-                        Thread.sleep(100);
+                        Thread.sleep(50);
                         actualizarCanvas();
                         getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
                         getMiJuego().subirCeros(getMiVista().getMatrizDePrueba());
-                        Thread.sleep(100);
+                        Thread.sleep(50);
                         actualizarCanvas();
                         getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
                         getMiJuego().llenarAleatorio(getMiVista().getMatrizDePrueba());
-                        Thread.sleep(100);
+                        Thread.sleep(50);
                         actualizarCanvas();
                         getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
                     }
                 } else {
                     this.intercambiarNumero(coordernadas2[0], coordernadas1[0], coordernadas2[1], coordernadas1[1]);
-                    Thread.sleep(100);
+                    Thread.sleep(50);
                     actualizarCanvas();
                     getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
                 }
             }
+            System.out.println("termine");
         } catch (IOException ex) {
             Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
