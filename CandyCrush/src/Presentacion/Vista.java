@@ -7,12 +7,16 @@ package Presentacion;
 
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import javax.swing.JButton;
@@ -29,9 +33,11 @@ public class Vista extends javax.swing.JFrame{
     private int nClicks = 0;
     private int[] posMouse1 = new int[2];
     private int[] posMouse2 = new int[2];
+    private BufferedImage Fondo;
     
 
-    Vista(Modelo m) {
+    Vista(Modelo m) throws IOException {
+        this.Fondo = ImageIO.read(getClass().getResource("/Imagenes/Borrador.png"));
         initComponents();
         this.setLocationRelativeTo(null);
         miModelo = m;
@@ -49,6 +55,10 @@ public class Vista extends javax.swing.JFrame{
     */
     public void imprimirMemes(int x, int y, Image img){
         canvas1.getGraphics().drawImage(img, x, y,null);
+    }
+    
+    public void borrarCanvas(){
+        canvas1.getGraphics().drawImage(this.Fondo, 0, 0,null);
     }
     
     public Controlador getmiControl() {
@@ -118,12 +128,15 @@ public class Vista extends javax.swing.JFrame{
     public void setMatrizDePrueba(int[][] matrizDePrueba) {
         this.matrizDePrueba = matrizDePrueba;
     }
+
     
     
 
     public void setMatrizDePrueba(int x, int y, int numeroACambiar) {
         matrizDePrueba[x][y] = numeroACambiar;
     }
+    
+    
     
     
     

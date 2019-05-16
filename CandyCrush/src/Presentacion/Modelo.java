@@ -2,11 +2,15 @@ package Presentacion;
 
 import Logica.Meme;
 import Logica.MemeCrush;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class Modelo {
+public class Modelo implements Runnable {
 
     private Vista miVista;
     private MemeCrush miJuego;
+    private  Thread hilo;
 
     public MemeCrush getMiJuego() {
         if (miJuego == null) {
@@ -15,7 +19,7 @@ public class Modelo {
         return miJuego;
     }
 
-    public Vista getMiVista() {
+    public Vista getMiVista() throws IOException {
         if (miVista == null) {
             miVista = new Vista(this);
         }
@@ -23,21 +27,26 @@ public class Modelo {
     }
 
     public void iniciar() {
-        getMiVista().setVisible(true);
-        getMiJuego().llenarAleatorio();
-        getMiJuego().corregirErrores();
-        getMiJuego().asignarMemes();
+        try {
+            hilo = new Thread(this);
+            getMiVista().setVisible(true);
+            getMiJuego().llenarAleatorio();
+            getMiJuego().corregirErrores();
+            getMiJuego().asignarMemes();
 
-        inicializarMemes();
-        System.out.println("La matriz original es:");
-        getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
+            inicializarMemes();
+            System.out.println("La matriz original es:");
+            getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
+        } catch (IOException ex) {
+            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
     /**
      * Metodo para indicar el Vista qué icono poner
      */
-    public void inicializarMemes() {
+    public void inicializarMemes() throws IOException {
         Meme[][] a = getMiJuego().getMemeCrushImg();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -141,42 +150,62 @@ public class Modelo {
      * Metodo para intercambiar el numero de los click que da el usuario
      */
     public void intercambiarNumero(int x1, int x2, int y1, int y2) {
-        int numeroGuardado = 0;
-        numeroGuardado = getMiVista().getMatrizDePrueba()[y2][x2];
-        getMiVista().setMatrizDePrueba(y2, x2, getMiVista().getMatrizDePrueba()[y1][x1]);
-        getMiVista().setMatrizDePrueba(y1, x1, numeroGuardado);
+        try {
+            int numeroGuardado = 0;
+            numeroGuardado = getMiVista().getMatrizDePrueba()[y2][x2];
+            getMiVista().setMatrizDePrueba(y2, x2, getMiVista().getMatrizDePrueba()[y1][x1]);
+            getMiVista().setMatrizDePrueba(y1, x1, numeroGuardado);
+            getMiJuego().setMemeCrush(getMiVista().getMatrizDePrueba());
+        } catch (IOException ex) {
+            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void actualizarCanvas() {
+        try {
+            getMiVista().borrarCanvas();
+            getMiJuego().asignarMemes();
+            inicializarMemes();
+        } catch (IOException ex) {
+            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
      * Metodo de interaccion de usuario
      */
     public void interaccionDeUsuario() {
-        int[] coordernadas1 = getMiVista().reconocerCoordenada(getMiVista().getPosMouse1()[0], getMiVista().getPosMouse1()[1]);
-        int[] coordernadas2 = getMiVista().reconocerCoordenada(getMiVista().getPosMouse2()[0], getMiVista().getPosMouse2()[1]);
-        if (comprobarPosibleMovimiento(coordernadas1, coordernadas2)) {
-            this.intercambiarNumero(coordernadas1[0], coordernadas2[0], coordernadas1[1], coordernadas2[1]);
-            if (getMiJuego().ComprobarExistenciaSolucion(getMiVista().getMatrizDePrueba())) {
-                System.out.println("\nme movi: \n\n");
-                getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
-                while (getMiJuego().ComprobarExistenciaSolucion(getMiVista().getMatrizDePrueba())) {
-                    System.out.println("\n Borre las soluciones: \n\n");
-                    getMiVista().setMatrizDePrueba(getMiJuego().BorrarSoluciones(getMiVista().getMatrizDePrueba()));
+        try {
+            int[] coordernadas1 = getMiVista().reconocerCoordenada(getMiVista().getPosMouse1()[0], getMiVista().getPosMouse1()[1]);
+            int[] coordernadas2 = getMiVista().reconocerCoordenada(getMiVista().getPosMouse2()[0], getMiVista().getPosMouse2()[1]);
+            if (comprobarPosibleMovimiento(coordernadas1, coordernadas2)) {
+                this.intercambiarNumero(coordernadas1[0], coordernadas2[0], coordernadas1[1], coordernadas2[1]);
+                if (getMiJuego().ComprobarExistenciaSolucion(getMiVista().getMatrizDePrueba())) {
+                    System.out.println("\nme movi: \n\n");
                     getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
-                    System.out.println("Aqui subi los ceros\n\n");
-                    getMiJuego().subirCeros(getMiVista().getMatrizDePrueba());
+                    while (getMiJuego().ComprobarExistenciaSolucion(getMiVista().getMatrizDePrueba())) {
+                        System.out.println("\n Borre las soluciones: \n\n");
+                        getMiVista().setMatrizDePrueba(getMiJuego().BorrarSoluciones(getMiVista().getMatrizDePrueba()));
+                        getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
+                        System.out.println("Aqui subi los ceros\n\n");
+                        getMiJuego().subirCeros(getMiVista().getMatrizDePrueba());
+                        getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
+                        System.out.println("Ya estoy lleno :v\n\n");
+                        getMiJuego().llenarAleatorio(getMiVista().getMatrizDePrueba());
+                        getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
+                    }
+                    System.out.println("quede asi :O (cuanto poder)");
                     getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
-                    System.out.println("Ya estoy lleno :v\n\n");
-                    getMiJuego().llenarAleatorio(getMiVista().getMatrizDePrueba());
+                    getMiVista().borrarCanvas();
+                } else {
+                    this.intercambiarNumero(coordernadas2[0], coordernadas1[0], coordernadas2[1], coordernadas1[1]);
+                    System.out.println("quede asi :O (cuanto poder)");
                     getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
                 }
-                System.out.println("quede asi :O (cuanto poder)");
-                getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
-            }else{
-                this.intercambiarNumero(coordernadas2[0], coordernadas1[0], coordernadas2[1], coordernadas1[1]);
-                System.out.println("quede asi :O (cuanto poder)");
-                getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
-            }
 
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -187,18 +216,22 @@ public class Modelo {
      * @param y coordenada vertical del mouse
      */
     public void conseguirCoordenadas(int x, int y) {
-        if (getMiVista().getnClicks() == 0) {
-            getMiVista().getPosMouse1()[0] = x;
-            getMiVista().getPosMouse1()[1] = y;
-            getMiVista().setnClicks(getMiVista().getnClicks() + 1);
-            //System.out.println("Entre,  x es: " +x+ " y y es: "+y);
-            System.out.println("Dio el primer click");
-        } else {
-            getMiVista().getPosMouse2()[0] = x;
-            getMiVista().getPosMouse2()[1] = y;
-            System.out.println("Dio el segundo click");
-            getMiVista().setnClicks(0);
-            interaccionDeUsuario();
+        try {
+            if (getMiVista().getnClicks() == 0) {
+                getMiVista().getPosMouse1()[0] = x;
+                getMiVista().getPosMouse1()[1] = y;
+                getMiVista().setnClicks(getMiVista().getnClicks() + 1);
+                //System.out.println("Entre,  x es: " +x+ " y y es: "+y);
+                System.out.println("Dio el primer click");
+            } else {
+                getMiVista().getPosMouse2()[0] = x;
+                getMiVista().getPosMouse2()[1] = y;
+                System.out.println("Dio el segundo click");
+                getMiVista().setnClicks(0);
+                hilo.start();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -206,4 +239,44 @@ public class Modelo {
         System.exit(0);
     }
 
+    @Override
+    public void run() {
+        try {
+            System.out.println("ayuda");
+            int[] coordernadas1 = getMiVista().reconocerCoordenada(getMiVista().getPosMouse1()[0], getMiVista().getPosMouse1()[1]);
+            int[] coordernadas2 = getMiVista().reconocerCoordenada(getMiVista().getPosMouse2()[0], getMiVista().getPosMouse2()[1]);
+            if (comprobarPosibleMovimiento(coordernadas1, coordernadas2)) {
+                this.intercambiarNumero(coordernadas1[0], coordernadas2[0], coordernadas1[1], coordernadas2[1]);
+                Thread.sleep(100);
+                actualizarCanvas();
+                getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
+                if (getMiJuego().ComprobarExistenciaSolucion(getMiVista().getMatrizDePrueba())) {
+                    while (getMiJuego().ComprobarExistenciaSolucion(getMiVista().getMatrizDePrueba())) {
+                        getMiVista().setMatrizDePrueba(getMiJuego().BorrarSoluciones(getMiVista().getMatrizDePrueba()));
+                        Thread.sleep(100);
+                        actualizarCanvas();
+                        getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
+                        getMiJuego().subirCeros(getMiVista().getMatrizDePrueba());
+                        Thread.sleep(100);
+                        actualizarCanvas();
+                        getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
+                        getMiJuego().llenarAleatorio(getMiVista().getMatrizDePrueba());
+                        Thread.sleep(100);
+                        actualizarCanvas();
+                        getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
+                    }
+                } else {
+                    this.intercambiarNumero(coordernadas2[0], coordernadas1[0], coordernadas2[1], coordernadas1[1]);
+                    Thread.sleep(100);
+                    actualizarCanvas();
+                    getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
+                }
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 }

@@ -49,6 +49,7 @@ public class MemeCrush {
 
             }
         }
+        memeCrush = matrizComprobante;
     }
 
     public void corregirErrores() {
@@ -216,6 +217,7 @@ public class MemeCrush {
                 }
             }
         }
+        memeCrush = m;
         return m;
     }
     
@@ -300,7 +302,7 @@ public class MemeCrush {
         if (cont != 0) {
             this.subirCeros(matrizComprobante);
         }
-
+        memeCrush = matrizComprobante;
     }
 
     
@@ -318,5 +320,11 @@ public class MemeCrush {
     private void borrador(int i, int j, int [][] matriz) {
         matriz[i][j]=0;
     }
+
+    public void setMemeCrush(int[][] memeCrush) {
+        this.memeCrush = memeCrush;
+    }
+    
+    
 
 }
