@@ -221,6 +221,19 @@ public class MemeCrush {
         return m;
     }
     
+    public int contarSoluciones(int[][] matrizComprobante){
+        int cont=0;
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (matrizComprobante[i][j]==0){
+                    cont++;
+                }
+            }
+        }
+        
+        return cont;
+    }
+    
     public boolean ComprobarExistenciarSolucionEnX(int[][] matrizComprobante) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {

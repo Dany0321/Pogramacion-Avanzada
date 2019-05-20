@@ -5,12 +5,43 @@ import Logica.MemeCrush;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.applet.AudioClip;
+import javax.swing.JOptionPane;
 
 public class Modelo implements Runnable {
 
     private Vista miVista;
     private MemeCrush miJuego;
-    private  Thread hilo;
+    private Thread hilo;
+    private AudioClip sonido;
+
+    public void reproducirSonidoMeme() {       
+        this.sonido.play();
+         try {        
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void escogerSonido() throws IOException {
+        if (getMiJuego().contarSoluciones(getMiVista().getMatrizDePrueba()) >= 5) {
+            this.sonido = java.applet.Applet.newAudioClip(getClass().getResource("/Sonido/Chingawhat.wav"));
+            
+        }
+        if (getMiJuego().contarSoluciones(getMiVista().getMatrizDePrueba()) == 3) {
+            this.sonido = java.applet.Applet.newAudioClip(getClass().getResource("/Sonido/Increible.wav"));
+            
+        }
+        if (getMiJuego().contarSoluciones(getMiVista().getMatrizDePrueba()) == 4) {
+            this.sonido = java.applet.Applet.newAudioClip(getClass().getResource("/Sonido/Uy no lo puedo creer.wav"));
+            
+        }
+        if (getMiJuego().contarSoluciones(getMiVista().getMatrizDePrueba()) == 0) {
+            this.sonido = java.applet.Applet.newAudioClip(getClass().getResource("/Sonido/Nope.wav"));
+            
+        }
+    }
 
     public MemeCrush getMiJuego() {
         if (miJuego == null) {
@@ -22,6 +53,8 @@ public class Modelo implements Runnable {
     public Vista getMiVista() throws IOException {
         if (miVista == null) {
             miVista = new Vista(this);
+            miVista.setMinutos(2);
+            miVista.setSegundos(0);
         }
         return miVista;
     }
@@ -33,7 +66,9 @@ public class Modelo implements Runnable {
             getMiJuego().llenarAleatorio();
             getMiJuego().corregirErrores();
             getMiJuego().asignarMemes();
-
+            getMiVista().getLblTiempoMinutos().setText("5");
+            getMiVista().getLblTiempoSegundos().setText("0");
+            getMiVista().getTiempo().start();
             inicializarMemes();
             System.out.println("La matriz original es:");
             getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
@@ -160,12 +195,44 @@ public class Modelo implements Runnable {
             Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void controlTiempo(){
+        try {
+            getMiVista().setSegundos(getMiVista().getSegundos() - 1);   
+            if (getMiVista().getSegundos() < 0){
+                getMiVista().setSegundos(59);
+                getMiVista().setMinutos(getMiVista().getMinutos() - 1);
+            } 
+            if(getMiVista().getSegundos() == 0 && getMiVista().getMinutos() == 0){
+                this.sonido = java.applet.Applet.newAudioClip(getClass().getResource("/Sonido/Bueno nos vamos.wav"));
+                reproducirSonidoMeme();
+                JOptionPane.showMessageDialog(null, "Se ha quedado sin tiempo");
+                getMiVista().getTiempo().stop();
+                salir();
+            }else{
+            getMiVista().getLblTiempoMinutos().setText(String.valueOf(getMiVista().getMinutos()));
+            getMiVista().getLblTiempoSegundos().setText(String.valueOf(getMiVista().getSegundos()));
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public void actualizarCanvas() {
         try {
             getMiVista().borrarCanvas();
             getMiJuego().asignarMemes();
             inicializarMemes();
+        } catch (IOException ex) {
+            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void administrarPuntos(int contador){
+        try {
+            int puntuacionActual = Integer.parseInt(getMiVista().getLblPuntuacionNumero().getText());
+            int puntos = contador * 100;
+            getMiVista().getLblPuntuacionNumero().setText(String.valueOf(puntos + puntuacionActual));
         } catch (IOException ex) {
             Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -197,8 +264,10 @@ public class Modelo implements Runnable {
                     System.out.println("quede asi :O (cuanto poder)");
                     getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
                     getMiVista().borrarCanvas();
+                    
                 } else {
                     this.intercambiarNumero(coordernadas2[0], coordernadas1[0], coordernadas2[1], coordernadas1[1]);
+                    
                     System.out.println("quede asi :O (cuanto poder)");
                     getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
                 }
@@ -253,6 +322,9 @@ public class Modelo implements Runnable {
                 if (getMiJuego().ComprobarExistenciaSolucion(getMiVista().getMatrizDePrueba())) {
                     while (getMiJuego().ComprobarExistenciaSolucion(getMiVista().getMatrizDePrueba())) {
                         getMiVista().setMatrizDePrueba(getMiJuego().BorrarSoluciones(getMiVista().getMatrizDePrueba()));
+                        escogerSonido();
+                        reproducirSonidoMeme();
+                        administrarPuntos(getMiJuego().contarSoluciones(getMiVista().getMatrizDePrueba()));
                         Thread.sleep(50);
                         actualizarCanvas();
                         getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
@@ -266,6 +338,8 @@ public class Modelo implements Runnable {
                         getMiJuego().imprimir(getMiVista().getMatrizDePrueba());
                     }
                 } else {
+                    escogerSonido();
+                    reproducirSonidoMeme();
                     this.intercambiarNumero(coordernadas2[0], coordernadas1[0], coordernadas2[1], coordernadas1[1]);
                     Thread.sleep(50);
                     actualizarCanvas();
@@ -279,5 +353,5 @@ public class Modelo implements Runnable {
             Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }
