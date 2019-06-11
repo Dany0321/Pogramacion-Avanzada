@@ -1,0 +1,122 @@
+<html>
+
+<head>
+    <title> Mi blog </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="estilos/Local.css">
+</head>
+
+<body>
+    <!--Contenedor general de las entradas e inicio-->
+    <div class="container">
+        <!--Cabecera de la página-->
+        <header class="page-header">
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="Index.html">Mi Blog</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="myNavbar">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="Index.html">Inicio</a></li>
+                            <li class="dropdown active">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Entradas <span
+                                        class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header">Javier Aponte</li>
+                                    <li><a href="Javier_inicio.html">¿Quien soy?</a></li>
+                                    <li><a href="Javier_gustos.html">Gustos</a></li>
+                                    <li><a href="Javier_sueños.html">Aspiraciones</a></li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header">Daniel Hormigay</li>
+                                    <li class="active"><a href="Daniel.html">Gustos</a></li>
+                                    <li><a href="Daniel _ocupacion.html">Ocupacion</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <!--Contenido-->
+        <div class="jumbotron jumbotron-fluid col-md-10 ">
+            <div class="pull-left">
+                <h2 align="center"> Mis Gustos </h2>
+                <p class="text-justify">
+                    Uno de mis mayores pasatiempos es jugar videojuegos con mis amigos y escuchar música.
+                    Aunque tambien disfruto de otros pasatiempos como tocar el piano y aprender trucos de cartas.
+                    <br>
+                    <h3> Videjuegos: </h3>
+                    <br>
+                    Hay una gran variedad de videojuegos que me gustan, uno de mis favoritos es la saga de "Metal Gear
+                    Solid".
+                    Aunque en la actualidad me encuentro jugando principalmente un juego de nombre "Ace Attorney:
+                    Phoenix Wright".
+                    <p align="center">
+                        <img class="img-fluid" src="Multimedia/MGS.jpg" height="300" width="450">
+                    </p>
+                </p>
+                <br>
+                <h3> Musica: </h3>
+                <br>
+                En cuanto a la música, mas que escucharla me gusta tocarla, por ello, desde niño he tocado el piano, y
+                en la actualidad
+                he estado aprendiendo otros instrumentos como la flauta dulce.
+                <p align="center">
+                    <img class="img-fluid" src="Multimedia/Piano.jpg" height="300" width="450">
+                </p>
+            </div>
+        </div>
+        <!--Menu de izquierda (formulario)-->
+        <div class="sidenav col-md-2">
+            <form>
+                <div class="form-group pull-left ">
+                    <audio class="form-group" id="reproductor" src="Multimedia/Cornered.mp3" controls="controls"
+                        type="audio/mpeg" preload="preload">
+                    </audio>
+                    <img class="form-group img-fluid" src="Multimedia/Phoenix.gif" height="100" width="100">
+                </div>
+            </form>
+        </div>
+        <!--Pie de pagina -->
+        <footer class="page-footer font-small teal pt-4">
+            <div class="container-fluid text-center text-md-left">
+
+                <div class="row">
+                    <div class="col-md-6 mt-md-0 mt-3">
+                        <h5 class="text-uppercase font-weight-bold">Contactenos</h5>
+                        <p>
+                            Si desea recibir informacion extra sobre el blog o ser notificado cada vez que
+                            este mismo se actualice por favor diligencie el siguiente formulario
+                        </p>
+
+                    </div>
+                    <hr class="clearfix w-100 d-md-none pb-3">
+                    <div class="col-md-6 mb-md-0 mb-3">
+                        <form class="input-group">
+                            <input type="text" class="form-control form-control-sm" placeholder="Ingrese su nombre"
+                                aria-label="Ingrese su nombre" aria-describedby="basic-addon2">
+                            <input type="text" class="form-control form-control-sm" placeholder="Ingrese su correo"
+                                aria-label="Ingrese su correo" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-sm btn-outline-white my-0" type="button">Enviar</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+</body>
+
+</html>
