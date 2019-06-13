@@ -16,7 +16,7 @@ public class sudoku{
      * @param numeroAleatorio = numero aleatorio generado para llenar el sudoku
      * @return boolean
      */
-    function comprobarEntradaCuadrante($cuadrante,$numeroAleatorio){
+    public function comprobarEntradaCuadrante($cuadrante,$numeroAleatorio){
         switch($cuadrante){
             case 1:
                 if ($this->comprobarExistencia(0, 2, 0, 2, $numeroAleatorio)) {
@@ -88,7 +88,7 @@ public class sudoku{
      * @param j = posicion columnas
      * @return
      */
-    function comprobarEntradaCuadrante($cuadrante,$numeroAleatorio,$posibleSolucion,$i,$j){
+    public function comprobarEntradaCuadrante($cuadrante,$numeroAleatorio,$posibleSolucion,$i,$j){
         switch ($cuadrante) {
             case 1:
                 if ($this->comprobarExistencia(0, 2, 0, 2, $numeroAleatorio, $posibleSolucion, i, j)) {
@@ -150,7 +150,7 @@ public class sudoku{
         return false;
     }
 
-    function conocerCuadrante($fila, $columna) {
+    public function conocerCuadrante($fila, $columna) {
         $cuadrante = 0;
         if ($fila >= 0 && $fila <= 2 && $columna >= 0 && $columna <= 2) {
             $cuadrante = 1;
@@ -182,7 +182,7 @@ public class sudoku{
         return $cuadrante;
     }
 
-    function llenarSudokuCero() {
+    public function llenarSudokuCero() {
         for ($i = 0; $i <= 8; $i++) {
             for ($j = 0; $j <= 8; $j++) {
                 $Sudoku[i][j] = 0;
@@ -190,7 +190,7 @@ public class sudoku{
         }
     }
 
-    function buscarCeros() {
+    public function buscarCeros() {
         for (int $i = 0; $i < 10; $i++) {
             for (int $j = 0; $j < 10; $j++) {
                 if ($Sudoku[i][j] == 0) {
@@ -201,7 +201,7 @@ public class sudoku{
         return false;
     }
 
-    function comprobarFilas($fila, $numeroRevisar) {
+    public function comprobarFilas($fila, $numeroRevisar) {
         for ($i = 0; $i < 9; $i++) {
             if ($Sudoku[$fila][$i] == $numeroRevisar) {
                 return true;
@@ -210,7 +210,7 @@ public class sudoku{
         return false;
     }
 
-    function comprobarColumnas($columna, $numeroRevisar) {
+    public function comprobarColumnas($columna, $numeroRevisar) {
         for ($i = 0; $i < 9; $i++) {
             if ($Sudoku[$i][$columna] == $numeroRevisar) {
                 return true;
@@ -219,7 +219,7 @@ public class sudoku{
         return false;
     }
 
-    function comprobarFilas($fila, $numeroRevisar, $posibleSolucion, $columna) {
+    public function comprobarFilas($fila, $numeroRevisar, $posibleSolucion, $columna) {
         for ($i = 0; $i < 9; $i++) {
             if ($i == $columna) {
                 continue;
@@ -230,7 +230,7 @@ public class sudoku{
         return false;
     }
 
-    function comprobarColumnas($columna, $numeroRevisar, $posibleSolucion, $fila) {
+    public function comprobarColumnas($columna, $numeroRevisar, $posibleSolucion, $fila) {
         for ( $i = 0; $i < 9; $i++) {
             if ($i == $fila) {
                 continue;
@@ -241,7 +241,7 @@ public class sudoku{
         return false;
     }
 
-    function comprobarExistencia($filaInicial, $filaFinal, $columnaInicial, $columnaFinal, $numero, $posibleSolucion, $x, $d) {
+    public function comprobarExistencia($filaInicial, $filaFinal, $columnaInicial, $columnaFinal, $numero, $posibleSolucion, $x, $d) {
         boolean $resultado = false;
         for ( $i = $filaInicial; $i <= $filaFinal; $i++) {
             for ($j = $columnaInicial; $j <= $columnaFinal; $j++) {
@@ -259,7 +259,7 @@ public class sudoku{
     /**
      * Metodo para comprobar la existencia de un numero en el cuadrante
      */
-    function comprobarExistencia($filaInicial,$filaFinal,$columnaInicial,$columnaFinal,$numero){
+    public function comprobarExistencia($filaInicial,$filaFinal,$columnaInicial,$columnaFinal,$numero){
         for($i = $filaInicial;$i <= $filaFinal;$i++){
             for($j = $columnaInicial; $j<=$columnaFinal;$j++){
                 if($Sudoku[i][j] == $numero){
@@ -270,7 +270,7 @@ public class sudoku{
         return false;
     }
 
-    function generar() {
+    public function generar() {
          $fila, $columna, $cuadrante, $numeroAleatorio;
         $this->llenarSudokuCero();
         for ($i = 0; $i < 17; $i++) {
@@ -293,7 +293,7 @@ public class sudoku{
         }
     }
 
-    function comprobarSolucion($posibleSolucion) {
+    public function comprobarSolucion($posibleSolucion) {
         $cuadrante, $aciertos = 0;
         for ($i = 0; $i < 9; $i++) {
             for ($j = 0; $j < 9; $j++) {
@@ -320,15 +320,15 @@ public class sudoku{
         }
     }
 
-    function getSudoku() {
+    public function getSudoku() {
         return $Sudoku;
     }
 
-    function getDificultad() {
+    public function getDificultad() {
         return $dificultad;
     }
 
-    function setDificultad($dificultad) {
+    public function setDificultad($dificultad) {
         $this->dificultad = $dificultad;
     }
 
