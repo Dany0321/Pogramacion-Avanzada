@@ -3,6 +3,9 @@ document.body.onload = generarInputs();
 var formulario = document.getElementById("formulario");
 var matrizInterfaz;
 var matrizSolucion;
+var tiempoM;
+var tiempoS;
+
 function generarInputs(){
 	matrizInterfaz = new Array(9);
 	for (var i = 0; i<9;i++){
@@ -15,7 +18,7 @@ function generarInputs(){
 			input = document.createElement("input",{class:"campo"});
 			input.id = "campo"+contador.toString();
 			input.size = 3;
-			console.log(input.id)
+			console.log(input.id);
 			document.getElementById("sudoku").insertAdjacentElement("afterbegin",input);
 			contador--;
 			matrizInterfaz[i][j] = input.id;
@@ -51,7 +54,7 @@ function revisar(){
 	}
 	console.log(matrizSolucion[0][0]);
 	var datos = new FormData();
-	datos.append("matriz",matrizSolucion);
+	datos.append("matriz",JSON.stringify(matrizSolucion));
 	enviarInfo(datos)
 	.then(res => {
 		console.log(res)
@@ -64,6 +67,9 @@ function revisar(){
 
 	}
 		)
+}
+
+function controlTiempo(){
 }
 
 formulario.addEventListener('submit', function(e){
@@ -96,3 +102,4 @@ async function enviarInfo(datosEnviados){
     recibe = await respuesta.json(); // sé que recibo un json
     return recibe;
 }
+
