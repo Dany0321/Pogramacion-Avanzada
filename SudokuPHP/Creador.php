@@ -10,7 +10,8 @@ $sudoku = $s->getSudoku();
 
 $datos = array(
     'estado' => 'ok',
-    'matrizSudoku' => $sudoku, 
+    'matrizSudoku' => $sudoku,
+    'dificultad' => $dificultad
 );
  
 echo json_encode($datos);
