@@ -2,6 +2,7 @@ console.log("algo");
 document.body.onload = generarInputs();
 var formulario = document.getElementById("formulario");
 var matrizInterfaz;
+var matrizSudo = [];
 var matrizSolucion;
 var tiempoM;
 var tiempoS;
@@ -69,7 +70,7 @@ function revisar(){
 	console.log(matrizSolucion[0][0]);
 	var datos = new FormData();
 	datos.append("matriz",JSON.stringify(matrizSolucion));
-	enviarInfo(datos)
+	enviarInfo(datos,'Corrector.php')
 	.then(res => {
 		console.log(res)
 		if(res.solucion == 1){
@@ -114,7 +115,7 @@ formulario.addEventListener('submit', function(e){
 	})
 		.then( res => res.json())
         .then( res => {
-            console.log(res);
+			console.log(res);
 				rellenarSudoku(res.matrizSudoku);
 				tiempoM =  dif;
 				tiempoS = 0;
@@ -122,12 +123,11 @@ formulario.addEventListener('submit', function(e){
 		})
 })
 
-function algo(){
-	console.log("sirvo");
-}
 
-async function enviarInfo(datosEnviados){
-    respuesta = await fetch('Corrector.php',{
+
+
+async function enviarInfo(datosEnviados,archivo){
+    respuesta = await fetch(archivo,{
         method: 'POST',
         body: datosEnviados,
         mode: "cors"
