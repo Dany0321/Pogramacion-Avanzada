@@ -1,154 +1,199 @@
 <?php
-
-public class sudoku{
+error_reporting(E_ALL ^ E_NOTICE);
+class Sudoku{
     private  $Dificultad;
     private  $Sudoku;
 
     function __construct() {
         $Dificultad = 45;
-        $Sudoku = [][];
+        $Sudoku = [];
     }
 
-    /**
-     * Metodo para revisar si el numero ya se encuentra en el cuadrante
-     *
-     * @param cuadrante = numero entero que expresa el cuadrante que ingresa
-     * @param numeroAleatorio = numero aleatorio generado para llenar el sudoku
-     * @return boolean
-     */
-    public function comprobarEntradaCuadrante($cuadrante,$numeroAleatorio){
-        switch($cuadrante){
-            case 1:
-                if ($this->comprobarExistencia(0, 2, 0, 2, $numeroAleatorio)) {
-                    return true;
-                }
-                ;
-                break;                
-            case 2:
-                if ($this->comprobarExistencia(0, 2, 3, 5, $numeroAleatorio)) {
-                    return true;
-                }
-                ;
-                break;
-            case 3:
-                if ($this->comprobarExistencia(0, 2, 6, 8, $numeroAleatorio)) {
-                    return true;
-                }
-                ;
-                break;
-            case 4:
-                if ($this->comprobarExistencia(3, 5, 0, 2, $numeroAleatorio)) {
-                    return true;
-                }
-                ;
-                break;
-            case 5:
-                if ($this->comprobarExistencia(3, 5, 3, 5, $numeroAleatorio)) {
-                    return true;
-                }
-                ;
-                break;
-            case 6:
-                if ($this->comprobarExistencia(3, 5, 6, 8, $numeroAleatorio)) {
-                    return true;
-                }
-                ;
-                break;
-            case 7:
-                if ($this->comprobarExistencia(6, 8, 0, 2, $numeroAleatorio)) {
-                    return true;
-                }
-                ;
-                break;
-            case 8:
-                if ($this->comprobarExistencia(6, 8, 3, 5, $numeroAleatorio)) {
-                    return true;
-                }
-                ;
-                break;
-            case 9:
-                if ($this->comprobarExistencia(6, 8, 6, 8, $numeroAleatorio)) {
-                    return true;
-                }
-                ;
-                break;
-            default:
-                return false;
+    public function __call($metodo,$argumentos){
+        if($metodo == "comprobarEntradaCuadrante"){
+            if (count($argumentos) == 2){
+                switch($argumentos[0]){
+                    case 1:
+                        if ($this->comprobarExistencia(0, 2, 0, 2, $argumentos[1])) {
+                            return true;
+                        }
+                        ;
+                        break;                
+                    case 2:
+                        if ($this->comprobarExistencia(0, 2, 3, 5, $argumentos[1])) {
+                            return true;
+                        }
+                        ;
+                        break;
+                    case 3:
+                        if ($this->comprobarExistencia(0, 2, 6, 8, $argumentos[1])) {
+                            return true;
+                        }
+                        ;
+                        break;
+                    case 4:
+                        if ($this->comprobarExistencia(3, 5, 0, 2, $argumentos[1])) {
+                            return true;
+                        }
+                        ;
+                        break;
+                    case 5:
+                        if ($this->comprobarExistencia(3, 5, 3, 5, $argumentos[1])) {
+                            return true;
+                        }
+                        ;
+                        break;
+                    case 6:
+                        if ($this->comprobarExistencia(3, 5, 6, 8, $argumentos[1])) {
+                            return true;
+                        }
+                        ;
+                        break;
+                    case 7:
+                        if ($this->comprobarExistencia(6, 8, 0, 2, $argumentos[1])) {
+                            return true;
+                        }
+                        ;
+                        break;
+                    case 8:
+                        if ($this->comprobarExistencia(6, 8, 3, 5, $argumentos[1])) {
+                            return true;
+                        }
+                        ;
+                        break;
+                    case 9:
+                        if ($this->comprobarExistencia(6, 8, 6, 8,$argumentos[1])) {
+                            return true;
+                        }
+                        ;
+                        break;
+                    default:
+                        return false;
+            }
+        }elseif(count($argumentos) == 5){
+            switch ($argumentos[0]) {
+                case 1:
+                    if ($this->comprobarExistencia(0, 2, 0, 2, $argumentos[1], $argumentos[2], $argumentos[3], $argumentos[4])) {
+                        return true;
+                    }
+                    ;
+                    break;
+                case 2:
+                    if ($this->comprobarExistencia(0, 2, 3, 5, $argumentos[1], $argumentos[2], $argumentos[3], $argumentos[4])) {
+                        return true;
+                    }
+                    ;
+                    break;
+                case 3:
+                    if ($this->comprobarExistencia(0, 2, 6, 8, $argumentos[1], $argumentos[2], $argumentos[3], $argumentos[4])) {
+                        return true;
+                    }
+                    ;
+                    break;
+                case 4:
+                    if ($this->comprobarExistencia(3, 5, 0, 2, $argumentos[1], $argumentos[2], $argumentos[3], $argumentos[4])) {
+                        return true;
+                    }
+                    ;
+                    break;
+                case 5:
+                    if ($this->comprobarExistencia(3, 5, 3, 5, $argumentos[1], $argumentos[2], $argumentos[3], $argumentos[4])) {
+                        return true;
+                    }
+                    ;
+                    break;
+                case 6:
+                    if ($this->comprobarExistencia(3, 5, 6, 8, $argumentos[1], $argumentos[2], $argumentos[3], $argumentos[4])) {
+                        return true;
+                    }
+                    ;
+                    break;
+                case 7:
+                    if ($this->comprobarExistencia(6, 8, 0, 2, $argumentos[1], $argumentos[2], $argumentos[3], $argumentos[4])) {
+                        return true;
+                    }
+                    ;
+                    break;
+                case 8:
+                    if ($this->comprobarExistencia(6, 8, 3, 5, $argumentos[1], $argumentos[2], $argumentos[3], $argumentos[4])) {
+                        return true;
+                    }
+                    ;
+                    break;
+                case 9:
+                    if ($this->comprobarExistencia(6, 8, 6, 8, $argumentos[1], $argumentos[2], $argumentos[3], $argumentos[4])) {
+                        return true;
+                    }
+                    ;
+                    break;
+                default:
+                    return false;
+            }
         }
-    }
 
-    /**
-     * Metodo de sobrecarga utilizado en la solucion del usuario
-     *
-     * @param cuadrante = numero entero que expresa el cuadrante que ingresa
-     * @param numeroAleatorio = numero aleatorio generado para llenar el sudoku
-     * @param posibleSolucion = matriz llenada por el usuario para comprobar su
-     * solucion
-     * @param i = posicion filas
-     * @param j = posicion columnas
-     * @return
-     */
-    public function comprobarEntradaCuadrante($cuadrante,$numeroAleatorio,$posibleSolucion,$i,$j){
-        switch ($cuadrante) {
-            case 1:
-                if ($this->comprobarExistencia(0, 2, 0, 2, $numeroAleatorio, $posibleSolucion, i, j)) {
+    }elseif($metodo == "comprobarFilas"){
+        if (count($argumentos) == 2){
+            for ($i = 0; $i < 9; $i++) {
+                if ($this->$Sudoku[$argumentos[0]][$i] == $argumentos[1]) {
                     return true;
                 }
-                ;
-                break;
-            case 2:
-                if ($this->comprobarExistencia(0, 2, 3, 5, $numeroAleatorio, $posibleSolucion, i, j)) {
+            }
+            return false;
+        }elseif(count($argumentos) == 4){
+            for ($i = 0; $i < 9; $i++) {
+                if ($i == $argumentos[3]) {
+                    continue;
+                } else if ($argumentos[2][$argumentos[0]][$i] == $argumentos[1]) {
                     return true;
                 }
-                ;
-                break;
-            case 3:
-                if ($this->comprobarExistencia(0, 2, 6, 8, $numeroAleatorio, $posibleSolucion, i, j)) {
-                    return true;
-                }
-                ;
-                break;
-            case 4:
-                if ($this->comprobarExistencia(3, 5, 0, 2, $numeroAleatorio, $posibleSolucion, i, j)) {
-                    return true;
-                }
-                ;
-                break;
-            case 5:
-                if ($this->comprobarExistencia(3, 5, 3, 5, $numeroAleatorio, $posibleSolucion, i, j)) {
-                    return true;
-                }
-                ;
-                break;
-            case 6:
-                if ($this->comprobarExistencia(3, 5, 6, 8, $numeroAleatorio, $posibleSolucion, i, j)) {
-                    return true;
-                }
-                ;
-                break;
-            case 7:
-                if ($this->comprobarExistencia(6, 8, 0, 2, $numeroAleatorio, $posibleSolucion, i, j)) {
-                    return true;
-                }
-                ;
-                break;
-            case 8:
-                if ($this->comprobarExistencia(6, 8, 3, 5, $numeroAleatorio, $posibleSolucion, i, j)) {
-                    return true;
-                }
-                ;
-                break;
-            case 9:
-                if ($this->comprobarExistencia(6, 8, 6, 8, $numeroAleatorio, $posibleSolucion, i, j)) {
-                    return true;
-                }
-                ;
-                break;
-            default:
-                return false;
+            }
+            return false;
         }
-        return false;
+    }elseif($metodo == "comprobarColumnas"){
+        if (count($argumentos) == 2){
+            for ($i = 0; $i < 9; $i++) {
+                if ($this->$Sudoku[$i][$argumentos[0]] == $argumentos[1]) {
+                    return true;
+                }
+            }
+            return false;
+        }elseif(count($argumentos) == 4){
+            for ($i = 0; $i < 9; $i++) {
+                if ($i == $argumentos[3]) {
+                    continue;
+                } else if ($argumentos[2][$i][$argumentos[0]] == $argumentos[1]) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        }elseif($metodo = "comprobarExistencia"){
+            if (count($argumentos) == 8){
+                $resultado = false;
+            for ( $i = $argumentos[0]; $i <= $argumentos[1]; $i++) {
+                for ($j = $argumentos[2]; $j <= $argumentos[3]; $j++) {
+                    if ($i == $argumentos[6] && $j == $argumentos[7]) {
+                        continue;
+                    } else if ($argumentos[5][$i][$j] == $argumentos[4]) {
+                        $resultado = true;
+                        return $resultado;
+                    }
+                
+                }
+                return $resultado;
+            }
+        }elseif(count($argumentos) == 5){
+            for($i = $argumentos[0];$i <= $argumentos[1];$i++){
+                for($j = $argumentos[2]; $j<=$argumentos[3];$j++){
+                    if($this->$Sudoku[$i][$j] == $argumentos[4]){
+                        return true;
+                    }                
+                }
+            }
+            return false;
+        }
     }
+}
 
     public function conocerCuadrante($fila, $columna) {
         $cuadrante = 0;
@@ -185,104 +230,34 @@ public class sudoku{
     public function llenarSudokuCero() {
         for ($i = 0; $i <= 8; $i++) {
             for ($j = 0; $j <= 8; $j++) {
-                $Sudoku[i][j] = 0;
+                $this->$Sudoku[$i][$j] = 0;
             }
         }
     }
 
     public function buscarCeros() {
-        for (int $i = 0; $i < 10; $i++) {
-            for (int $j = 0; $j < 10; $j++) {
-                if ($Sudoku[i][j] == 0) {
+        for ($i = 0; $i < 10; $i++) {
+            for ($j = 0; $j < 10; $j++) {
+                if ($this->$Sudoku[$i][$j] == 0) {
                     return true;
                 }
-            }
-        }
-        return false;
-    }
-
-    public function comprobarFilas($fila, $numeroRevisar) {
-        for ($i = 0; $i < 9; $i++) {
-            if ($Sudoku[$fila][$i] == $numeroRevisar) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public function comprobarColumnas($columna, $numeroRevisar) {
-        for ($i = 0; $i < 9; $i++) {
-            if ($Sudoku[$i][$columna] == $numeroRevisar) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public function comprobarFilas($fila, $numeroRevisar, $posibleSolucion, $columna) {
-        for ($i = 0; $i < 9; $i++) {
-            if ($i == $columna) {
-                continue;
-            } else if ($posibleSolucion[$fila][$i] == $numeroRevisar) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public function comprobarColumnas($columna, $numeroRevisar, $posibleSolucion, $fila) {
-        for ( $i = 0; $i < 9; $i++) {
-            if ($i == $fila) {
-                continue;
-            } else if ($posibleSolucion[$i][$columna] == $numeroRevisar) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public function comprobarExistencia($filaInicial, $filaFinal, $columnaInicial, $columnaFinal, $numero, $posibleSolucion, $x, $d) {
-        boolean $resultado = false;
-        for ( $i = $filaInicial; $i <= $filaFinal; $i++) {
-            for ($j = $columnaInicial; $j <= $columnaFinal; $j++) {
-                if ($i == $x && $j == $d) {
-                    continue;
-                } else if ($posibleSolucion[$i][$j] == $numero) {
-                    $resultado = true;
-                    return $resultado;
-                }
-            }
-        }
-        return $resultado;
-    }
-
-    /**
-     * Metodo para comprobar la existencia de un numero en el cuadrante
-     */
-    public function comprobarExistencia($filaInicial,$filaFinal,$columnaInicial,$columnaFinal,$numero){
-        for($i = $filaInicial;$i <= $filaFinal;$i++){
-            for($j = $columnaInicial; $j<=$columnaFinal;$j++){
-                if($Sudoku[i][j] == $numero){
-                    return true;
-                }                
             }
         }
         return false;
     }
 
     public function generar() {
-         $fila, $columna, $cuadrante, $numeroAleatorio;
         $this->llenarSudokuCero();
         for ($i = 0; $i < 17; $i++) {
             while (true) {
                 $numeroAleatorio = rand(1,9);
                 $fila = rand(0,8);
                 $columna = rand(0,8);
-                if ($Sudoku[$fila][$columna] == 0) {
+                if ($this->$Sudoku[$fila][$columna] == 0) {
                     $cuadrante = $this->conocerCuadrante($fila, $columna);
                     if (!$this->comprobarEntradaCuadrante($cuadrante, $numeroAleatorio)) {
                         if (!$this->comprobarFilas($fila, $numeroAleatorio)) {
-                            if (!$this.comprobarColumnas($columna, $numeroAleatorio)) {
+                            if (!$this->comprobarColumnas($columna, $numeroAleatorio)) {
                                 $this->$Sudoku[$fila][$columna] = $numeroAleatorio;
                                 break;
                             }
@@ -294,44 +269,54 @@ public class sudoku{
     }
 
     public function comprobarSolucion($posibleSolucion) {
-        $cuadrante, $aciertos = 0;
+        $cuadrante = 0;
+        $aciertos = 0;
+        $pareja = array();
         for ($i = 0; $i < 9; $i++) {
             for ($j = 0; $j < 9; $j++) {
                 $cuadrante = $this->conocerCuadrante($i, $j);
-                if (!$this->comprobarEntradaCuadrante($cuadrante, $posibleSolucion[i][j], $posibleSolucion, $i, $j)) {
+                if (!$this->comprobarEntradaCuadrante($cuadrante, $posibleSolucion[$i][$j], $posibleSolucion, $i, $j)) {
                     if (!$this->comprobarFilas($i, $posibleSolucion[$i][$j], $posibleSolucion, $j)) {
                         if (!$this->comprobarColumnas($j, $posibleSolucion[$i][$j], $posibleSolucion, $i)) {
                             $aciertos++;
                         } else {
-                            echo("La posision " + i + " " + j + " falla en columnas");
+                            array_push($pareja,$i);
+                            array_push($pareja,$j);
+                            array_push($pareja,$s = "col"); 
                         }
                     } else {
-                        echo("La posision " + i + " " + j + " falla en filas");
+                        array_push($pareja,$i);
+                        array_push($pareja,$j); 
+                        array_push($pareja,$s = "fil");  
                     }
                 } else {
-                    echo("La posision " + i + " " + j + " falla en cuadrante");
+                    array_push($pareja,$i);
+                    array_push($pareja,$j);
+                    array_push($pareja,$s = "cua");  
                 }
             }
         }
         if ($aciertos == 81) {
-            return true;
+            $a = 1;
+            array_push($pareja,$a);
+            return $pareja;
         } else {
-            return false;
+            $a = 0;
+            array_push($pareja,$a);
+            return $pareja;
         }
     }
 
     public function getSudoku() {
-        return $Sudoku;
+        return $this->$Sudoku;
     }
 
     public function getDificultad() {
         return $dificultad;
     }
 
-    public function setDificultad($dificultad) {
-        $this->dificultad = $dificultad;
+    public function setDificultad($dificultad1) {
+        $dificultad = $dificultad1;
     }
-
 }
-
 ?>
