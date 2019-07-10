@@ -1,19 +1,16 @@
-var contraseña;
+var nombre;
+var contra;
 
-let url = 'http://localhost/cajero/Negociador.php';
+var esclavo = new Worker('lectorMensajero.js')
 
-fetch(url)
-.then(res => res.json())
-.then( res => {
-    console.log(res);
-        if(res.contra == "fail"){
-            alert("Ingrese una tarjeta valida");
-        }else{
-            contraseña = res.contra;
-            window.open("http://localhost/cajero/Cuenta.html","_self")
-        }
-})
-.then((out) => {
-  console.log('Checkout this JSON! ', out);
-})
-.catch(err => { throw err });
+
+
+esclavo.onmessage = function(oEvent){
+    nombre = oEvent.data[0];
+    contra = oEvent.data[1];
+    window.location.replace("http://localhost/Cajero/Cuenta.html");
+}
+
+
+
+

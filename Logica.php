@@ -15,7 +15,6 @@ class Logica{
         if(!$db){
             echo $db->lastErrorMsg();
         }else{
-            echo "Me conecte a la base de datos";
         }
 
         $sql =<<<EOF
@@ -26,7 +25,6 @@ EOF;
         $contador = 0;
         $contra = "fail";
         while($row = $ret->fetchArray(SQLITE3_ASSOC)){
-            echo "wii";
             $contador = $contador + 1;
             if($contador != 0){
                 $contra = $row['clave'];
@@ -34,6 +32,38 @@ EOF;
         }
         $db->close();
         return $contra;
+    }
+
+    public static function retirarDinero($valor,$nombre){
+        $db = new BaseDatos();
+
+        if(!$db){
+            echo $db->lastErrorMsg();
+        }else{
+        }
+
+        $sql =<<<EOF
+            SELECT Cuenta.id,saldo FROM Tarjeta,Cuenta WHERE nombre = $nombre and Tarjeta.id_cuenta = Cuenta.id;
+EOF;
+    $ret =$db->query($sql);
+    while($row = $ret->fetchArray(SQLITE3_ASSOC)){
+        $id = $row['id'];
+        $saldoActual = $row['saldo'];
+    }
+
+
+    if(($saldoActual - $valor) < 0){
+        return "error1";
+    }
+
+    $sql =<<<EOF
+            UPDATE Cuenta SET saldo = $saldoActual - $valor WHERE id = $id
+EOF;
+
+    $ret = $db->exec($sql);
+
+    $db->close();
+    return "ok";
     }
 
 }
